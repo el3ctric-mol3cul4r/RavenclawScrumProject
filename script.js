@@ -8,6 +8,16 @@ const closeModalBtn = document.getElementById('close-modal-btn');
 const resetTimerBtn = document.getElementById('reset-timer-btn');
 
 
+// Question Class
+class Question {
+    constructor(text, answer, points) {
+        this.text = text;
+        this.answer = answer;
+        this.answer = answer
+    }   
+}
+
+// Update timer display
 function updateDisplay() {
     timerDisplay.textContent = timer.getTimeString();
 
