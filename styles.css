@@ -1,1 +1,231 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    color: #333;
+    position: relative;
+}
+
+.timer-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 1000;
+}
+
+h1 {
+    color: #4a5568;
+    margin: 0;
+    font-size: 1.5em;
+    white-space: nowrap;
+}
+
+#timer-display {
+    font-size: 2em;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    color: #44ff44;
+    margin: 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 10px 15px;
+    border: 2px solid #ddd;
+    min-width: 80px;
+    text-align: center;
+}
+
+.reset-btn {
+    background: linear-gradient(45deg, #48bb78, #38a169);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 10px 0;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.reset-btn:hover {
+    background: linear-gradient(45deg, #38a169, #2f855a);
+    transform: translateY(-2px);
+}
+
+.reset-btn.hidden {
+    display: none;
+}
+
+#status {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 15px 20px;
+    border-radius: 10px;
+    border-left: 4px solid #667eea;
+    font-size: 1.1em;
+    color: #4a5568;
+    font-weight: 500;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+.modal-content h2 {
+    color: #e53e3e;
+    margin-bottom: 20px;
+    font-size: 2.5em;
+}
+
+.modal-content p {
+    color: #4a5568;
+    margin-bottom: 30px;
+    font-size: 1.2em;
+}
+
+#close-modal-btn {
+    background: linear-gradient(45deg, #718096, #4a5568);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#close-modal-btn:hover {
+    background: linear-gradient(45deg, #4a5568, #2d3748);
+    transform: translateY(-2px);
+}
+
+@keyframes modalSlideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .timer-container {
+        top: 10px;
+        right: 10px;
+        padding: 15px;
+        gap: 10px;
+    }
+
+    h1 {
+        font-size: 1.2em;
+    }
+
+    #timer-display {
+        font-size: 1.5em;
+        padding: 8px 12px;
+    }
+
+    #status {
+        top: 10px;
+        left: 10px;
+        padding: 12px 15px;
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .timer-container {
+        top: 5px;
+        right: 5px;
+        padding: 10px;
+        gap: 8px;
+    }
+
+    h1 {
+        font-size: 1em;
+    }
+
+    #timer-display {
+        font-size: 1.2em;
+        padding: 6px 10px;
+    }
+
+    #status {
+        top: 5px;
+        left: 5px;
+        padding: 10px 12px;
+        font-size: 0.9em;
+        max-width: calc(100vw - 120px);
+    }
+
+    .reset-btn {
+        padding: 6px 12px;
+        font-size: 0.8em;
+        margin: 8px 0;
+    }
+
+    .modal-content {
+        margin: 20% auto;
+        padding: 30px 20px;
+        width: 95%;
+    }
+
+    .modal-content h2 {
+        font-size: 2em;
+    }
+
+    .modal-content p {
+        font-size: 1em;
+    }
+
+    #close-modal-btn,
+    #reset-timer-btn {
+        padding: 10px 20px;
+        font-size: 1em;
+        min-width: 100px;
+    }
+}
 
