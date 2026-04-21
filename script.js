@@ -1,3 +1,15 @@
+
+if(document.getElementById("timer-display")){
+    let button = document.createElement("button")
+    button.innerText = "Return to home"
+    document.getElementById("swap container").appendChild(button)
+    button.addEventListener("click", function(){window.location.href = "index.html"}
+)
+}
+
+
+
+
 const timer = new SharedCountdownTimer(300, 'globalGame');
 
 // Get DOM elements
