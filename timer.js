@@ -1,5 +1,5 @@
 class SharedCountdownTimer {
-    constructor(durationInSeconds = 300, gameId = 'default') { // Default 5 minutes
+    constructor(durationInSeconds = 600, gameId = 'default') { 
         this.duration = durationInSeconds;
         this.gameId = gameId;
         this.remainingTime = durationInSeconds;
@@ -11,7 +11,7 @@ class SharedCountdownTimer {
         this.loadSharedState();
     }
 
-    // Load shared game state from localStorage (fallback for when server isn't available)
+    
     loadSharedState() {
         const savedState = localStorage.getItem(`sharedGame_${this.gameId}`);
         if (savedState) {
@@ -19,7 +19,7 @@ class SharedCountdownTimer {
             this.gameStartTime = state.gameStartTime;
             this.duration = state.duration;
 
-            // Calculate remaining time based on elapsed time since game started
+            
             if (this.gameStartTime) {
                 const elapsed = Math.floor((Date.now() - this.gameStartTime) / 1000);
                 this.remainingTime = Math.max(0, this.duration - elapsed);
@@ -33,12 +33,12 @@ class SharedCountdownTimer {
                 }
             }
         } else {
-            // No saved state, start new game
+            
             this.startNewGame();
         }
     }
 
-    // Save shared game state
+    
     saveSharedState() {
         const state = {
             gameStartTime: this.gameStartTime,
@@ -48,7 +48,7 @@ class SharedCountdownTimer {
         localStorage.setItem(`sharedGame_${this.gameId}`, JSON.stringify(state));
     }
 
-    // Start a new game with current timestamp
+    
     startNewGame() {
         this.gameStartTime = Date.now();
         this.remainingTime = this.duration;
@@ -89,7 +89,7 @@ class SharedCountdownTimer {
         if (!this.isRunning) {
             this.startNewGame();
         } else {
-            // Game is already running, just ensure interval is active
+            
             this.startInterval();
         }
     }
@@ -118,12 +118,12 @@ class SharedCountdownTimer {
         this.saveSharedState();
     }
 
-    // Clear shared state (useful for game reset)
+    
     clearState() {
         localStorage.removeItem(`sharedGame_${this.gameId}`);
     }
 
-    // Get current game status for debugging
+    
     getStatus() {
         return {
             remainingTime: this.remainingTime,
