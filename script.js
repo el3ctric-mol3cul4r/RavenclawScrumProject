@@ -1,5 +1,42 @@
-// Create shared countdown timer instance (5 minutes = 300 seconds)
-// All users will see the same timer based on shared game state
+if (document.getElementById("pageSwitch")){
+    document.getElementById("pageSwitch").addEventListener("click", function(){window.location.href = "timer.html"})
+}
+
+if(document.getElementById("timer-display")){
+    let button = document.createElement("button")
+    button.innerText = "Return to home"
+    document.getElementById("swap container").appendChild(button)
+    button.addEventListener("click", function(){window.location.href = "index.html"}
+)
+}
+
+class Question{
+    constructor(answer){
+        this.answer = answer
+        
+    }
+}
+    
+    
+
+class Subject{
+    constructor(questions, type){
+        this.questions = questions
+        this.type = type
+    }
+
+    newQuestion(){
+        this.display(this.questions[Math.trunc(Math.random()*this.questions.length)])
+    }
+
+    display(question){
+    }
+}
+
+/*
+
+
+
 const timer = new SharedCountdownTimer(300, 'globalGame');
 
 // Get DOM elements
@@ -81,3 +118,5 @@ if (!timer.isRunning || timer.remainingTime <= 0) {
         statusDiv.textContent = 'Game in progress!';
     }
 }
+
+*/
