@@ -6,5 +6,14 @@
 
 <body>
     <h1>Covid 19 On Cruise Ships</h1>
-    <button id = "pageSwitch">Timer page</button>
+    <button id="pageSwitch">Timer page</button>
+    <button id="leaderboardLink">House leaderboard</button>
+    <script>
+        const leaderboardLink = document.getElementById("leaderboardLink");
+        if (leaderboardLink) {
+            leaderboardLink.addEventListener("click", () => {
+                window.location.href = "leaderboard.html";
+            });
+        }
+    </script>
 </body>
