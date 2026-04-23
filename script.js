@@ -18,16 +18,28 @@ const statusDiv = document.getElementById('status');
 const gameOverModal = document.getElementById('game-over-modal');
 const closeModalBtn = document.getElementById('close-modal-btn');
 const resetTimerBtn = document.getElementById('reset-timer-btn');
+const questionDiv = document.createElement("div");
+
+document.body.appendChild(questionDiv);
 
 
 // Question Class
 class Question {
-    constructor(text, answer, points) {
+    constructor(text, options, answer, points) {
         this.text = text;
+        this.options = options;
         this.answer = answer;
-        this.answer = answer
+        this.points = points;
     }   
 }
+
+test = new Question("testing testing ", "I Got Options", "testing ", 15);
+
+questionDiv.innerHTML += test;
+questionDiv.innerHTML += test.text;
+questionDiv.innerHTML += test.options;
+questionDiv.innerHTML += test.answer;
+questionDiv.innerHTML += test.points;
 
 // Update timer display
 function updateDisplay() {
