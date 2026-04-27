@@ -4,8 +4,8 @@ const socket = io();
     const messages = document.getElementById('messages');
 
     // Handle form submission
+    e.preventDefault();
     form.addEventListener('submit', (e) => {
-        e.preventDefault();
         const message = input.value.trim();
         if (message) {
             // Emit the message to the server

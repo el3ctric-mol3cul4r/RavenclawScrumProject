@@ -17,8 +17,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Simple route
 app.get('/', (req, res) => {
-;  res.sendFile(path.join(__dirname, 'public', 'landing.html'));
+;  res.sendFile(path.join(__dirname, 'landing.html'));
 });
+
+function newFile(page){
+  app.get('/', (req, res) => {
+    res.redirect('/' + page);
+  })
+}
 
 // Socket.IO connection handler
 io.on('connection', (socket) => {
