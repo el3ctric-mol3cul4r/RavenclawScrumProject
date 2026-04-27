@@ -1,13 +1,38 @@
 <!DOCTYPE html>
-
+<html lang="en">
 <head>
-    <script src = "indexScript.js" defer></script>
+    <meta charset="UTF-8">
+    <title>Covid 19 On Cruise Ships</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="indexScript.js" defer></script>
 </head>
-
 <body>
     <h1>Covid 19 On Cruise Ships</h1>
     <button id="pageSwitch">Timer page</button>
     <button id="leaderboardLink">House leaderboard</button>
+
+    <section id="sections" style="margin-top:24px; padding:18px; border-radius:18px; background:rgba(255,255,255,0.9); box-shadow:0 10px 30px rgba(0,0,0,0.08);">
+        <h2>Subjects</h2>
+        <button id="precalcBtn">Precalculus</button>
+    </section>
+
+    <div id="precalcSection" style="display:none; margin-top:18px;">
+        <h2>Precalculus Challenge</h2>
+        <label for="houseSelect">Choose your house:</label>
+        <select id="houseSelect">
+            <option value="gryffindor">Gryffindor</option>
+            <option value="hufflepuff">Hufflepuff</option>
+            <option value="ravenclaw">Ravenclaw</option>
+            <option value="slytherin">Slytherin</option>
+        </select>
+
+        <div id="questionSection" style="margin-top:16px; display:none;">
+            <p id="questionText"></p>
+            <div id="options"></div>
+            <p id="feedback"></p>
+        </div>
+    </div>
+
     <script>
         const leaderboardLink = document.getElementById("leaderboardLink");
         if (leaderboardLink) {
@@ -17,3 +42,4 @@
         }
     </script>
 </body>
+</html>
