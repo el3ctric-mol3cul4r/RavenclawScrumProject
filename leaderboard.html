@@ -4,13 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>House Leaderboard</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 24px;
-            background: #f8f9fb;
-            color: #222;
-        }
         h1, h2 {
             margin-bottom: 12px;
         }
@@ -39,7 +34,7 @@
         }
         .house-row {
             display: grid;
-            grid-template-columns: 1fr 96px 1fr;
+            grid-template-columns: 1fr 96px;
             gap: 12px;
             align-items: center;
             padding: 12px 0;
@@ -57,40 +52,10 @@
             font-weight: 700;
             text-align: center;
         }
-        .house-controls button {
-            width: 100%;
-            padding: 8px 10px;
-            border: none;
-            border-radius: 8px;
-            color: black;
-            cursor: pointer;
-            transition: transform .12s ease, box-shadow .12s ease;
-        }
-        .house-controls button:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(0,0,0,.12);
-        }
         .gryffindor { background: #7f0909; color: white}
         .hufflepuff { background: #ecb939; color: white; }
         .ravenclaw { background: #0e1a40; color: white}
         .slytherin { background: #2a623d; color: white }
-        .controls-row {
-            margin-top: 18px;
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        .controls-row button {
-            padding: 10px 16px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            background: #2f6f9d;
-            color: #fff;
-        }
-        .controls-row button:hover {
-            opacity: .92;
-        }
     </style>
 </head>
 <body>
@@ -104,83 +69,57 @@
         <div class="house-row gryffindor">
             <div class="house-name">Gryffindor</div>
             <div class="house-score" id="score-gryffindor">0</div>
-            <div class="house-controls">
-                <button type="button" data-house="gryffindor">+10 house pts</button>
-            </div>
         </div>
         <div class="house-row hufflepuff">
             <div class="house-name">Hufflepuff</div>
             <div class="house-score" id="score-hufflepuff">0</div>
-            <div class="house-controls">
-                <button type="button" data-house="hufflepuff">+10 house pts</button>
-            </div>
         </div>
         <div class="house-row ravenclaw">
             <div class="house-name">Ravenclaw</div>
             <div class="house-score" id="score-ravenclaw">0</div>
-            <div class="house-controls">
-                <button type="button" data-house="ravenclaw">+10 house pts</button>
-            </div>
         </div>
         <div class="house-row slytherin">
             <div class="house-name">Slytherin</div>
             <div class="house-score" id="score-slytherin">0</div>
-            <div class="house-controls">
-                <button type="button" data-house="slytherin">+10 house pts</button>
-            </div>
-        </div>
-
-        <div class="controls-row">
-            <button id="reset-scores" type="button">Reset scores</button>
-            <button id="sort-scores" type="button">Sort by highest</button>
         </div>
     </section>
 
+    <button id="reset-scores-btn" type="button" style="margin-top:18px; padding: 10px 16px; border-radius: 10px; background:#2f6f9d; color:#fff; border:none; cursor:pointer;">Reset scores</button>
+
     <script>
-        const houseScores = {
+        const SCORE_KEY = 'houseScores';
+        const defaultScores = {
             gryffindor: 0,
             hufflepuff: 0,
             ravenclaw: 0,
             slytherin: 0
         };
 
-        function updateScoreDisplay(house) {
-            const scoreElement = document.getElementById(`score-${house}`);
-            if (scoreElement) {
-                scoreElement.textContent = houseScores[house];
+        function getScores() {
+            const stored = localStorage.getItem(SCORE_KEY);
+            return stored ? JSON.parse(stored) : defaultScores;
+        }
+
+        function updateScoreDisplay(house, value) {
+            const element = document.getElementById(`score-${house}`);
+            if (element) {
+                element.textContent = value;
             }
         }
 
-        function updateAllScores() {
-            Object.keys(houseScores).forEach(updateScoreDisplay);
+        function loadScores() {
+            const scores = getScores();
+            Object.entries(scores).forEach(([house, value]) => updateScoreDisplay(house, value));
         }
 
-        document.querySelectorAll('.house-controls button').forEach(button => {
-            button.addEventListener('click', () => {
-                const house = button.dataset.house;
-                houseScores[house] += 10;
-                updateScoreDisplay(house);
-            });
-        });
+        function resetScores() {
+            localStorage.setItem(SCORE_KEY, JSON.stringify(defaultScores));
+            loadScores();
+        }
 
-        document.getElementById('reset-scores').addEventListener('click', () => {
-            houseScores.gryffindor = 0;
-            houseScores.hufflepuff = 0;
-            houseScores.ravenclaw = 0;
-            houseScores.slytherin = 0;
-            updateAllScores();
-        });
+        document.getElementById('reset-scores-btn').addEventListener('click', resetScores);
 
-        document.getElementById('sort-scores').addEventListener('click', () => {
-            const leaderboard = document.querySelector('.leaderboard');
-            const rows = Array.from(leaderboard.querySelectorAll('.house-row'));
-            rows.sort((a, b) => {
-                const scoreA = parseInt(a.querySelector('.house-score').textContent, 10);
-                const scoreB = parseInt(b.querySelector('.house-score').textContent, 10);
-                return scoreB - scoreA;
-            });
-            rows.forEach(row => leaderboard.insertBefore(row, document.querySelector('.controls-row')));
-        });
+        loadScores();
     </script>
 </body>
 </html>
