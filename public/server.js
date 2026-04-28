@@ -13,12 +13,18 @@ const io = new Server(server, {
 });
 
 // Serve static files
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname)));
 
 // Simple route
 app.get('/', (req, res) => {
-;  res.sendFile(path.join(__dirname, 'public', 'landing.html'));
+;  res.sendFile(path.join(__dirname, 'landing.html'));
 });
+
+function newFile(page){
+  app.get('/', (req, res) => {
+    res.redirect('/' + page);
+  })
+}
 
 // Socket.IO connection handler
 io.on('connection', (socket) => {

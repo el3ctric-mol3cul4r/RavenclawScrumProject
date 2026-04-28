@@ -52,9 +52,14 @@
   </style>
 
   <script src="/socket.io/socket.io.js" defer></script>
-  <script src="client.js" defer></script>
 </head>
 <body>
+  <h1>Covid 19 On Cruise Ships</h1>
+    <button id = "pageSwitch">Timer page</button>
+    <br>
+    <button id = "home">Home</button>
+    <br>
+    <button id = "realServer">Real Server</button>
   <ul id="messages"></ul>
 
   <form id="form">
@@ -62,4 +67,18 @@
     <button>Send</button>
   </form>
 </body>
+
+<script>
+  if (document.getElementById("pageSwitch")){
+    document.getElementById("pageSwitch").addEventListener("click", () => {
+      window.location.href = "/timer.html"
+    })
+  }
+
+  if (document.getElementById("home")){
+    document.getElementById("home").addEventListener("click", () => {
+      window.location.href = "/index.html";
+    })
+  }
+</script>
 </html>
