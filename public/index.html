@@ -10,6 +10,7 @@
     <h1>Covid 19 On Cruise Ships</h1>
     <button id="pageSwitch">Timer page</button>
     <button id="leaderboardLink">House leaderboard</button>
+    <button id="landingButton">Landing Button</button>
 
     <section id="sections" style="margin-top:24px; padding:18px; border-radius:18px; background:rgba(255,255,255,0.9); box-shadow:0 10px 30px rgba(0,0,0,0.08);">
         <h2>Subjects</h2>
@@ -40,6 +41,10 @@
                 window.location.href = "leaderboard.html";
             });
         }
+
+        document.getElementById("landingButton").addEventListener("click", () => {
+            window.location.href = '/landing.html'
+        })
     </script>
 </body>
 </html>
