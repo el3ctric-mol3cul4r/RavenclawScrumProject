@@ -1,3 +1,4 @@
+// ── House score helpers ────────────────────────────────────────────────────
 const HOUSE_SCORES_KEY = 'houseScores';
 const defaultScores = {
     gryffindor: 0,
@@ -21,74 +22,141 @@ function addHousePoints(house, points) {
     saveHouseScores(scores);
 }
 
-const questions = [
-    {
-        question: 'What is the domain of f(x) = x + 3 / (x^2 - x - 6)?',
-        options: [
-            'All real numbers except x=-2',
-            'All real numbers except x=3 and x=-2',
-            'All real numbers except x=3',
-            'All real numbers'
-        ],
-        correctIndex: 1
-    },
-    {
-        question: 'Find the average rate of change of g(x)=x/(x^2-1) from x=2 to x=4.',
-        options: ['-1/2', '-3/5', '-1/3', '-1/5'],
-        correctIndex: 3
+// ── CSV parsing ────────────────────────────────────────────────────────────
+// Handles quoted fields that contain commas or newlines.
+function parseCSV(text) {
+    const rows = [];
+    const re = /("(?:[^"]|"")*"|[^,\n]*)(,|\n|$)/g;
+    let row = [];
+    let match;
+    while ((match = re.exec(text)) !== null) {
+        let val = match[1];
+        if (val.startsWith('"') && val.endsWith('"')) {
+            val = val.slice(1, -1).replace(/""/g, '"');
+        }
+        row.push(val.trim());
+        if (match[2] === '\n' || match[2] === '') {
+            if (row.some(c => c !== '')) rows.push(row);
+            row = [];
+            if (match[2] === '') break;
+        }
     }
-];
+    return rows;
+}
 
-if (document.getElementById("pageSwitch")) {
-    document.getElementById("pageSwitch").addEventListener("click", function() {
-        window.location.href = "timer.html";
+async function loadQuestionsFromCSV(filename) {
+    const response = await fetch(filename);
+    const text = await response.text();
+    const rows = parseCSV(text);
+
+    // Skip header row; skip blank/incomplete rows
+    return rows.slice(1)
+        .filter(row => row[0] && row[1] && row[2] && row[3] && row[4] && row[6])
+        .map(row => ({
+            question:     row[0],
+            options:      [row[1], row[2], row[3], row[4]],
+            explanation:  row[5] || '',
+            // Column 7 uses 1-based numbering (1–4); convert to 0-based index
+            correctIndex: parseInt(row[6], 10) - 1
+        }));
+}
+
+// ── Question state ─────────────────────────────────────────────────────────
+let questions = [];
+let currentQuestion = null;
+
+// ── DOM refs ───────────────────────────────────────────────────────────────
+if (document.getElementById('pageSwitch')) {
+    document.getElementById('pageSwitch').addEventListener('click', () => {
+        window.location.href = 'timer.html';
     });
 }
 
-const precalcBtn = document.getElementById('precalcBtn');
-const precalcSection = document.getElementById('precalcSection');
+const precalcBtn      = document.getElementById('precalcBtn');
+const precalcSection  = document.getElementById('precalcSection');
 const questionSection = document.getElementById('questionSection');
-const questionText = document.getElementById('questionText');
-const optionsDiv = document.getElementById('options');
-const feedback = document.getElementById('feedback');
+const questionText    = document.getElementById('questionText');
+const optionsDiv      = document.getElementById('options');
+const feedback        = document.getElementById('feedback');
 
+// ── Load & display a question ──────────────────────────────────────────────
 function loadQuestion() {
-    const item = questions[Math.floor(Math.random() * questions.length)];
-    questionText.textContent = item.question;
+    currentQuestion = questions[Math.floor(Math.random() * questions.length)];
+    questionText.textContent = currentQuestion.question;
     optionsDiv.innerHTML = '';
-    item.options.forEach((option, index) => {
+    feedback.innerHTML = '';
+
+    currentQuestion.options.forEach((option, index) => {
         const button = document.createElement('button');
         button.type = 'button';
         button.textContent = option;
-        button.style.display = 'block';
-        button.style.margin = '8px 0';
-        button.addEventListener('click', () => checkAnswer(index, item.correctIndex));
+        button.style.cssText = 'display:block; margin:8px 0;';
+        button.addEventListener('click', () => checkAnswer(index, button));
         optionsDiv.appendChild(button);
     });
 }
 
-function checkAnswer(selected, correctIndex) {
+// ── Check answer, award points, show explanation ───────────────────────────
+function checkAnswer(selectedIndex, clickedButton) {
+    // Disable all buttons so the user can't click again
+    const allButtons = optionsDiv.querySelectorAll('button');
+    allButtons.forEach(btn => btn.disabled = true);
+
     const houseSelect = document.getElementById('houseSelect');
     const house = houseSelect ? houseSelect.value : 'ravenclaw';
+    const { correctIndex, explanation, options } = currentQuestion;
 
-    if (selected === correctIndex) {
-        feedback.textContent = 'Correct! +5 points to ' + house + '.';
+    // Highlight correct answer green
+    allButtons[correctIndex].style.background = '#2a7a2a';
+    allButtons[correctIndex].style.color = '#fff';
+
+    if (selectedIndex === correctIndex) {
+        // ── Correct ──
         addHousePoints(house, 5);
+        feedback.innerHTML = `✅ Correct! <strong>+5 points</strong> to ${capitalize(house)}.`;
+        feedback.style.color = '#2a7a2a';
+
         setTimeout(() => {
-            feedback.textContent = '';
+            feedback.innerHTML = '';
             loadQuestion();
-        }, 1800);
+        }, 2000);
+
     } else {
-        feedback.textContent = 'Wrong answer. Moving to the next question.';
+        // ── Wrong — highlight their pick red, show explanation ──
+        clickedButton.style.background = '#9b2020';
+        clickedButton.style.color = '#fff';
+
+        const correctText = options[correctIndex];
+        feedback.innerHTML =
+            `❌ Not quite. The correct answer is <strong>${correctText}</strong>.<br><br>` +
+            `<em>${explanation}</em>`;
+        feedback.style.color = '#9b2020';
+
         setTimeout(() => {
-            feedback.textContent = '';
+            feedback.innerHTML = '';
             loadQuestion();
-        }, 600);
+        }, 6000); // longer delay so they can read the explanation
     }
 }
 
-precalcBtn.addEventListener('click', () => {
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+// ── Init ───────────────────────────────────────────────────────────────────
+precalcBtn.addEventListener('click', async () => {
     precalcSection.style.display = 'block';
     questionSection.style.display = 'block';
+
+    if (questions.length === 0) {
+        questionText.textContent = 'Loading questions…';
+        const [u1, u2, u3] = await Promise.all([
+            loadQuestionsFromCSV('Unit1.csv'),
+            loadQuestionsFromCSV('Unit2.csv'),
+            loadQuestionsFromCSV('Unit3.csv')
+        ]);
+        questions = [...u1, ...u2, ...u3];
+    }
+
     loadQuestion();
 });
