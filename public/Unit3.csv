@@ -1,0 +1,32 @@
+Which of the following is equivalent to cscA + cotA ?,1 + tan A/1 ? cot A,1/1+tan A,1 + cos A/sin A,sin A/1 + cos A,"Start by rewriting everything in terms of sine and cosine:
+csc A= 1/sin A? cot A = cos A/sin A
+
+So,
+
+csc A + cot A = 1/sin A + cos/sin A
+
+Combine the fractions:
+
+= 1 + cos A/sin A",3
+"The cartesian coordinates  (x, y) corresponding to the polar coordinates  (4, 3pi/4) are",(2sqrt2. 2sqrt2),"(-sqrt2, 2sqrt2)","(-2sqrt2, 2sqrt2)","(-2, 2sqrt2)","To convert from polar to Cartesian coordinates, use
+
+X = rcos(theta)  and  y = r sin(theta)
+
+Thus, for (r,theta)=(4,3pi/4),
+
+x=4cos3pi/4 and  y=4sin3pi/4
+
+x=4 * (?1/sqrt2)  and  y=4 * (1/sqrt2)
+
+x = -2sqrt2  and  y = 2sqrt2",3
+"For some angle theta, sin(theta) = 8/17 and the terminal ray is in the second quadrant. What is the value of  tan(theta) + cot(theta)?",-298/120,-289/120,-256/120,-267/120,"To evaluate the expression, find cos(theta) and then use identities to simplify.
+
+Using the Pythagorean identity: cos^2(theta) = 1 - (8/17)^2 = 1 - 64/289 = 225/289, so cos(theta) = -15/17 (negative in Q2). Then tan(theta) + cot(theta) = sin(theta)/cos(theta) + cos(theta)/sin(theta) = 1/(sin(theta)cos(theta)) =1/((8/17)(-15/17))=1/(-120/289)=-289/120",2
+Which of the following options shows the range of  2(1 - 2cosx)?,"[0, 8]","[-2, 4]","[-2, 6]","[0, 6]","To find the range, use the known range of cos x and apply the transformations step-by-step.
+
+-1 =<-cosx <= 1
+ -2 <= -2cosx <= 2
+ - 1 <= 1 - 2cosx <= 3
+ - 2 <= 2(1 - 2cosx) <= 6
+Thus, the range of the function is [-2,6]
+.",3
