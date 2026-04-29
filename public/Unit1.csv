@@ -1,0 +1,59 @@
+"Which of the following shows the domain of the following function f(x) = x+3/x^2-x-6?,All real numbers except x=-2,All real numbers except x=3 and x=-2,All real numbers except x=3,All real numbers,"To find the domain of a rational function, determine the values of x
+ for which the denominator equals zero. Factor the denominator:
+
+x^2 - x - 6 = (x - 3)(x + 2)
+
+Setting each factor equal to zero gives x = 3 and x = -2.
+Therefore the domain is all real numbers except x = 3 and x = -2.",2
+Find the average rate of change of the function g(x) from x=2 to x=4. g(x) = x/x^2-1,-0.5,-0.6,-0.333333333,-0.2,"Evaluate the function at both points:
+
+g(4) = 4/16 - 1 = 4/15
+
+g(2) = 2/4 - 1 = 2/3
+
+Now apply the average rate of change formula:
+
+g(4) - g(2) / 4 - 2
+= (4/15 ) - (2/3) / 2 = (4/15) - (10/15) / 2
+= -6/15 - 1/2 = -1/5",4
+Find all the roots of the polynomial function. p(x)=x^3-3x^2+4,"2,2,-1","-2,-1,0","-2,1,1","-1,2,2","Use the Rational Root Theorem:
+
+Possible rational roots are factors of 4 divided by factors of 1:
+
+1, 2, 4
+
+Test possible roots:
+
+Start with x = 2:
+
+p(2)=2^3 - 3(2^2) + 4 = 8 - 12 + 4 = 0
+
+So, x=2 is a root. This means (x-2) is a factor.
+
+Factor the polynomial:
+
+Divide x^3 - 3x^2 + 4 by (x - 2):
+
+p(x) = (x - 2)(x^2 - x - 2)
+ 
+Factor the quadratic:
+
+x^2 -  x - 2 = (x - 2) (x + 1)
+
+Find all roots:
+
+p(x)= (x - 2)^2*(x + 1)
+  
+So the roots are:
+
+x= 2, 2, -1",1
+"The graph of p(x)=x^3 is transformed to produce a new function q(x). The graph is shifted left 2 units, reflected over the x-axis, and shifted up 5 units. Which of the following represents q(x)?",q(x) = (x - 2)^3 -5,q(x) = - (x + 2)^3 - 5,q(x) = (x + 2)^3 - 5,q(x) = - (x + 2)^3 + 5,"To write the new function, apply each transformation step-by-step to the original function.
+
+Apply transformations in order. A shift left 2 units replaces x with (x + 2), giving (x + 2)^3
+
+
+A reflection over the x-axis multiplies the function by -1, giving - (x + 2)^3
+
+
+A vertical shift up 5 units adds 5, giving q(x) = - (x + 2)^3+5
+",2
