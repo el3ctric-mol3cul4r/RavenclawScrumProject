@@ -1,32 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Countdown Timer</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<title>Timer</title>
+<script src="/socket.io/socket.io.js"></script>
 </head>
+
 <body>
-    <h1>Covid-19 on cruise ships</h1>
-    <div class="timer-container"></div>
-    <div id = "subjects"></div>
-    <div id = "navigation"></div>
-        <h1>Game Timer</h1>
-        <div id="timer-display">05:00</div>
-        <button id="reset-timer-btn" class="reset-btn hidden">New Game</button>
-        <div id="status">Game starting...</div>
-    </div>
 
-    <div id="game-over-modal" class="modal">
-        <div class="modal-content">
-            <h2>Time's Up!</h2>
-            <p>Your game time has expired.</p>
-            <button id="close-modal-btn">Continue</button>
-        </div>
-    </div>
-    <div id = "swap container"></div>
+<h1>Game Timer</h1>
+<h2 id="timer">05:00</h2>
 
-    <script src="timer.js"></script>
-    <script src="script.js"></script>
+<button onclick="window.location.href='index.html'">Home</button>
+<button id="newGame">New Game</button>
+
+<script>
+const socket = io();
+
+function format(sec) {
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+
+  return String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}
+
+socket.on('timerUpdate', data => {
+  document.getElementById('timer').textContent =
+    format(data.remaining);
+});
+
+document.getElementById('newGame').onclick = () => {
+  socket.emit('startTimer');
+};
+</script>
+
 </body>
 </html>
