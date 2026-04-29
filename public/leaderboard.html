@@ -1,125 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>House Leaderboard</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        h1, h2 {
-            margin-bottom: 12px;
-        }
-        .nav-row {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-        .nav-row button,
-        .nav-row a {
-            padding: 10px 16px;
-            border: none;
-            border-radius: 8px;
-            background: #2f6f9d;
-            color: #fff;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .leaderboard {
-            max-width: 640px;
-            padding: 18px;
-            border-radius: 12px;
-            background: #fff;
-            box-shadow: 0 8px 24px rgba(0,0,0,.08);
-        }
-        .house-row {
-            display: grid;
-            grid-template-columns: 1fr 96px;
-            gap: 12px;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #e5e8ed;
-        }
-        .house-row:last-child {
-            border-bottom: none;
-        }
-        .house-name {
-            font-weight: 700;
-            text-transform: capitalize;
-        }
-        .house-score {
-            font-size: 1.2rem;
-            font-weight: 700;
-            text-align: center;
-        }
-        .gryffindor { background: #7f0909; color: white}
-        .hufflepuff { background: #ecb939; color: white; }
-        .ravenclaw { background: #0e1a40; color: white}
-        .slytherin { background: #2a623d; color: white }
-    </style>
+<meta charset="UTF-8">
+<title>Leaderboard</title>
+<script src="/socket.io/socket.io.js"></script>
 </head>
+
 <body>
-    <div class="nav-row">
-        <a href="index.html">Home</a>
-        <button onclick="window.location.href='timer.html'">Timer page</button>
-    </div>
 
-    <section class="leaderboard" aria-labelledby="leaderboard-title">
-        <h1 id="leaderboard-title">House Leaderboard</h1>
-        <div class="house-row gryffindor">
-            <div class="house-name">Gryffindor</div>
-            <div class="house-score" id="score-gryffindor">0</div>
-        </div>
-        <div class="house-row hufflepuff">
-            <div class="house-name">Hufflepuff</div>
-            <div class="house-score" id="score-hufflepuff">0</div>
-        </div>
-        <div class="house-row ravenclaw">
-            <div class="house-name">Ravenclaw</div>
-            <div class="house-score" id="score-ravenclaw">0</div>
-        </div>
-        <div class="house-row slytherin">
-            <div class="house-name">Slytherin</div>
-            <div class="house-score" id="score-slytherin">0</div>
-        </div>
-    </section>
+<h1>House Leaderboard</h1>
 
-    <button id="reset-scores-btn" type="button" style="margin-top:18px; padding: 10px 16px; border-radius: 10px; background:#2f6f9d; color:#fff; border:none; cursor:pointer;">Reset scores</button>
+<h2>Gryffindor: <span id="gryffindor">0</span></h2>
+<h2>Hufflepuff: <span id="hufflepuff">0</span></h2>
+<h2>Ravenclaw: <span id="ravenclaw">0</span></h2>
+<h2>Slytherin: <span id="slytherin">0</span></h2>
 
-    <script>
-        const SCORE_KEY = 'houseScores';
-        const defaultScores = {
-            gryffindor: 0,
-            hufflepuff: 0,
-            ravenclaw: 0,
-            slytherin: 0
-        };
+<button onclick="window.location.href='index.html'">Home</button>
+<button id="resetBtn">Reset Scores</button>
 
-        function getScores() {
-            const stored = localStorage.getItem(SCORE_KEY);
-            return stored ? JSON.parse(stored) : defaultScores;
-        }
+<script>
+const socket = io();
 
-        function updateScoreDisplay(house, value) {
-            const element = document.getElementById(`score-${house}`);
-            if (element) {
-                element.textContent = value;
-            }
-        }
+socket.on('scoresUpdated', scores => {
+  document.getElementById('gryffindor').textContent = scores.gryffindor;
+  document.getElementById('hufflepuff').textContent = scores.hufflepuff;
+  document.getElementById('ravenclaw').textContent = scores.ravenclaw;
+  document.getElementById('slytherin').textContent = scores.slytherin;
+});
 
-        function loadScores() {
-            const scores = getScores();
-            Object.entries(scores).forEach(([house, value]) => updateScoreDisplay(house, value));
-        }
+document.getElementById('resetBtn').onclick = () => {
+  socket.emit('resetScores');
+};
+</script>
 
-        function resetScores() {
-            localStorage.setItem(SCORE_KEY, JSON.stringify(defaultScores));
-            loadScores();
-        }
-
-        document.getElementById('reset-scores-btn').addEventListener('click', resetScores);
-
-        loadScores();
-    </script>
 </body>
 </html>
