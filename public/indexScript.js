@@ -28,8 +28,35 @@ document.getElementById('landingButton').onclick = () => {
 
 /* ---------------- CSV ---------------- */
 
+// Proper CSV parser that still outputs SAME row format you expect
 function parseCSV(text) {
-  const rows = text.trim().split('\n').map(row => row.split(','));
+  const rows = [];
+  const re = /("(?:[^"]|"")*"|[^,\n]*)(,|\n|$)/g;
+
+  let row = [];
+  let match;
+
+  while ((match = re.exec(text)) !== null) {
+    let val = match[1];
+
+    // remove surrounding quotes if present
+    if (val.startsWith('"') && val.endsWith('"')) {
+      val = val.slice(1, -1).replace(/""/g, '"');
+    }
+
+    row.push(val.trim());
+
+    // end of row
+    if (match[2] === '\n' || match[2] === '') {
+      if (row.length > 1 && row.some(c => c !== '')) {
+        rows.push(row);
+      }
+      row = [];
+
+      if (match[2] === '') break;
+    }
+  }
+
   return rows;
 }
 
@@ -41,7 +68,7 @@ async function loadQuestionsFromCSV(file) {
   return rows.slice(1).map(row => ({
     question: row[0],
     options: [row[1], row[2], row[3], row[4]],
-    explanation: row[5],
+    explanation: row[5] || '',
     correctIndex: Number(row[6]) - 1
   }));
 }
