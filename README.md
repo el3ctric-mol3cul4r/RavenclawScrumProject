@@ -1,0 +1,1 @@
+To run the server, open up a codespace, cd into public, then run node server.js in the terminal. Swap over to ports, right click the port, change visibility to public, then ctrl-click the link to open it in a new tab.
